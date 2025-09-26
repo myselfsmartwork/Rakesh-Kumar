@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gemini API Client</title>
+  <link rel="stylesheet" href="index.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "marked": "https://esm.sh/marked@^15.0.8",
+        "@google/genai": "https://esm.run/@google/genai"
+      }
+    }
+  </script>
+</head>
+<body>
+  <main>
+    <h1>Gemini API</h1>
+    <p>Select a mode, choose a model, enter your prompt, and see the AI's response.</p>
+    
+    <div id="mode-selector">
+      <label><input type="radio" name="mode" value="chat" checked> Chat</label>
+      <label><input type="radio" name="mode" value="image"> Generate Image</label>
+      <label><input type="radio" name="mode" value="video"> Generate Video</label>
+    </div>
+
+    <form id="model-form">
+      <label for="prompt-input">Enter your prompt:</label>
+      <textarea id="prompt-input" name="prompt" rows="3" placeholder="e.g., Explain to me how AI works, or describe this image"></textarea>
+      
+      <label for="model-select">Choose a model:</label>
+      <select name="model" id="model-select">
+        <!-- Options populated by script -->
+      </select>
+
+      <div id="aspect-ratio-container" class="hidden">
+        <label for="aspect-ratio-select">Aspect Ratio:</label>
+        <select name="aspect-ratio" id="aspect-ratio-select">
+          <option value="1:1" selected>Square (1:1)</option>
+          <option value="9:16">Portrait (9:16)</option>
+          <option value="16:9">Landscape (16:9)</option>
+        </select>
+      </div>
+
+      <div id="video-settings-container" class="hidden">
+        <label for="video-resolution-select">Resolution:</label>
+        <select name="video-resolution" id="video-resolution-select">
+          <option value="sd" selected>SD</option>
+          <option value="hd">HD</option>
+        </select>
+        <label for="video-fps-select">Frame Rate:</label>
+        <select name="video-fps" id="video-fps-select">
+          <option value="24" selected>24 fps</option>
+          <option value="30">30 fps</option>
+        </select>
+      </div>
+
+      <label for="image-upload" class="image-upload-label">Upload Image (Optional)</label>
+      <input type="file" id="image-upload" name="image" accept="image/*" class="hidden">
+      <div id="image-preview-container" class="hidden">
+        <img id="image-preview" src="#" alt="Image preview" />
+        <button type="button" id="remove-image-button" aria-label="Remove image">&times;</button>
+      </div>
+      
+      <button type="submit">Ask AI</button>
+    </form>
+    <div id="loader" class="hidden">Thinking...</div>
+    <div id="response-header" class="hidden">
+      <h2>Response</h2>
+      <div>
+        <button id="copy-button" aria-label="Copy response to clipboard">Copy</button>
+        <button id="download-button" aria-label="Download image" class="hidden">Download</button>
+      </div>
+    </div>
+    <div id="response-container"></div>
+  </main>
+  <script type="module" src="index.tsx"></script>
+</body>
+</html>
